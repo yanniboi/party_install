@@ -17,7 +17,11 @@ function party_install_form_install_configure_form_alter(&$form, &$form_state, $
   drupal_get_messages('status');
   drupal_get_messages('warning');
 
-  dpm($form);
+  drupal_set_message(print_r($form, true));
+  drupal_set_message(print_r($form_id, true));
+  print 'form cheese';
+
+
 
   // Set reasonable defaults for site configuration form
   $form['site_information']['site_name']['#default_value'] = 'Party';
@@ -29,7 +33,7 @@ function party_install_form_install_configure_form_alter(&$form, &$form_state, $
 }
 
 function hook_install_tasks_alter(&$tasks, $install_state) {
-  dpm($forms);
-  drupal_set_message(print_r($forms, true));
+  dpm($tasks);
+  drupal_set_message(print_r($tasks, true));
   print 'form cheese';
 }
