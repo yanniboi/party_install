@@ -32,6 +32,10 @@ function party_install_form_install_configure_form_alter(&$form, &$form_state, $
 
 }
 
+function party_install_form_install_settings_form_alter(&$form, &$form_state, $form_id) {
+  print 'cheese';
+}
+
 function hook_install_tasks_alter(&$tasks, $install_state) {
   dpm($tasks);
   drupal_set_message(print_r($tasks, true));
