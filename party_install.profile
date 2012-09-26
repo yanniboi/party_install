@@ -43,6 +43,12 @@ function party_install_install_tasks($install_state) {
   $country_is_us = !empty($install_state['parameters']['country']) && $install_state['parameters']['country'] = 'US'; 
   $country_is_ca = !empty($install_state['parameters']['country']) && $install_state['parameters']['country'] = 'CA';
   $tasks = array(
+    'party_create' => array(
+      'display_name' => st('Create Parties'),
+      'type' => 'form',
+      'run' => INSTALL_TAST_RUN_IF_NOT_COMPLETED,
+      'function' => 'party_install_party_generate_form',
+    ),
     'geo_country' => array(
       'display_name' => st('Choose a country'),
     ),
@@ -55,4 +61,18 @@ function party_install_install_tasks($install_state) {
     ),
   );
   return $tasks;
+}
+
+function party_install_party_generate_form($form, &$form_state, &$install_state) {
+  $form['markup'] = array(
+    '#title' => 'Markup',
+    '#type' => 'markup',
+    '#markup' => st('This is some text for the form.'),
+  );
+  $form['entry'] = array(
+    '#title' => 'Entry',
+    '#type' => 'textarea',
+    '#description' => st('Please enter how many parties you would like to create.'),
+    '#default_value' => 5,
+  );
 }
