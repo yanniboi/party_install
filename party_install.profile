@@ -26,22 +26,10 @@ function party_install_form_install_configure_form_alter(&$form, &$form_state, $
 
 }
 
-function party_install_form_install_settings_form_alter(&$form, &$form_state, $form_id) {
-  print 'cheese';
-}
-
-function hook_install_tasks_alter(&$tasks, $install_state) {
-  dpm($tasks);
-  drupal_set_message(print_r($tasks, true));
-  print 'form cheese';
-}
-
 /**
  * Implements hook_install_tasks().
  */
 function party_install_install_tasks($install_state) {
-  $country_is_us = !empty($install_state['parameters']['country']) && $install_state['parameters']['country'] = 'US'; 
-  $country_is_ca = !empty($install_state['parameters']['country']) && $install_state['parameters']['country'] = 'CA';
   $tasks = array(
     'party_create' => array(
       'display_name' => st('Create Parties'),
