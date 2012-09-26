@@ -14,7 +14,7 @@ function party_install_install() {
   include_once DRUPAL_ROOT . '/profiles/minimal/minimal.install';
   minimal_install();
 
-/*  // Enable the admin theme.
+  // Enable the admin theme.
   db_update('system')
     ->fields(array('status' => 1))
     ->condition('type', 'theme')
@@ -23,7 +23,7 @@ function party_install_install() {
   variable_set('admin_theme', 'seven');
   variable_set('node_admin_theme', '1');
 
-  // Add text formats.
+/*  // Add text formats.
   $filtered_html_format = array(
     'format' => 'filtered_html',
     'name' => 'Filtered HTML',
