@@ -46,33 +46,67 @@ function party_install_install_tasks($install_state) {
     'party_create' => array(
       'display_name' => st('Create Parties'),
       'type' => 'form',
-      'run' => INSTALL_TAST_RUN_IF_NOT_COMPLETED,
+      'run' => 'INSTALL_TAST_RUN_IF_NOT_COMPLETED',
       'function' => 'party_install_party_generate_form',
-    ),
-    'geo_country' => array(
-      'display_name' => st('Choose a country'),
-    ),
-    'geo_state' => array(
-      'display_name' => st('Choose a state or province'),
-      'display' => $country_is_us || $country_is_ca,
-      'type' => 'form',
-      'run' => $country_is_us || $country_is_ca ? INSTALL_TASK_RUN_IF_NOT_COMPLETED : INSTALL_TASK_SKIP,
-      'function' => $country_is_us ? 'geo_state_form' : 'geo_province_form',
     ),
   );
   return $tasks;
 }
 
 function party_install_party_generate_form($form, &$form_state, &$install_state) {
+  drupal_set_title(st('Create Parties'));
+
   $form['markup'] = array(
-    '#title' => 'Markup',
     '#type' => 'markup',
-    '#markup' => st('This is some text for the form.'),
+    '#markup' => st('You can choose to create some "dummy" parties.'),
   );
   $form['entry'] = array(
-    '#title' => 'Entry',
-    '#type' => 'textarea',
+    '#title' => 'Create Parties',
+    '#type' => 'textfield',
     '#description' => st('Please enter how many parties you would like to create.'),
     '#default_value' => 5,
   );
+
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit', 
+    '#value' => st('Save and continue'), 
+    '#weight' => 15,
+  );
+
+//  drupal_set_message(print_r($form_state, true));
+//  drupal_set_message(print_r($install_state, true));
+  return $form;
 }
+
+function party_install_party_generate_form_validate($form, &$form_state) {
+  if (!is_numeric($form_state['values']['entry'])) {
+    form_error($form['entry'], 'Field must be a number!');
+  }
+  elseif ($form_state['values']['entry'] <= 0) {
+    form_error($form['entry'], 'Field must be a postitive number!');
+  }
+ 
+}
+
+function party_install_party_generate_form_submit($form, &$form_state) {
+  $i = 1;
+
+  while ($i <= $form_state['values']['entry']) {
+    $party = array();
+    $party = party_create($party);
+
+    // Parties are dummy content so do not need to be merged
+    $party->merged = 0;
+    $party->language = LANGUAGE_NONE;
+
+    // Generate dummy content for fields
+    module_load_include('inc', 'devel_generate', 'devel_generate.fields');
+    devel_generate_fields($party, 'party', 'party');
+
+    // save the party
+    $party->save();
+    $i++;
+  }
+}
+
