@@ -169,11 +169,38 @@ function party_simplenews_simplenews_subscriber_delete($subscriber) {
 
 /**
  * Implements hook_simplenews_subscriber_insert.
+ *
+ * Ensures that the subscriber record from simplenews has a reference to the
+ * correct party.
+ *
+ * This hook gets called whenever a new subscriber record gets added to the
+ * database. The information available at this point can vary.
+ * - If the subscription has been made through simplenews' bulk email
+ *   subscriber the subscriber may only have the 'email' property.
+ * - If the subscription was made through the subscription_settings attached
+ *   entity then the 'party_id' and 'party_field_ref' will be available.
+ * - If the subscription was made through the user subscribing themself then
+ *   'uid' property will be set.
+ * These properties are described in more detail below.
+ * - 'email' The email address being subscribed to the newsletter. This should
+ *   always be availble.
+ * - 'uid' The user id of the user being subscribed to the newsletter.
+ * - 'party_id' The party id of the party being subscirbed to a newsletter.
+ * - 'party_field_ref' A string that tell's party which field the email matches
+ *   on the party. This allow's party module to keep the subscription up to
+ *   date if the email changes.
+ * Once a suitable party has been found for the subscriber, the party_id and
+ * party_field_ref are stored in the party_simplenews_subscriber table (see
+ * party_simplenews_simplenews_subscriber_update). A subscription settings
+ * entity is also attached to the party.
  */
 function party_simplenews_simplenews_subscriber_insert($subscriber) {
-  // If the party is set add the sniff out a potential user and create a subscription
-  // @todo: not actually subscribing user for now as multiple user
-  // subscriptions may cause problems for simplenews
+  // If the party and field_ref is set save them into the
+  // party_simplenews_subscriber table and add a subscriptions_settings
+  // attached entity (if one does not already exist.
+  // @todo: we don't add the party's user to the subscriber record for now as:
+  //   1 - multiple user subscriptions may cause problems for simplenews
+  //   2 - this may have potential security risks?
   if (!empty($subscriber->party_id) && !empty($subscriber->party_field_ref)) {
     simplenews_subscriber_save($subscriber);
 
@@ -182,25 +209,37 @@ function party_simplenews_simplenews_subscriber_insert($subscriber) {
     return;
   }
 
-  // Firstly, if the account id is not 0, see if that user has a party and
-  // attach it.
+  // Firstly, if the account id is not 0 and the party_user module is enabled,
+  // see if that user has a party and attach it. This avoids the potential
+  // security hole above as the party and user are already connected.
   if (module_exists('party_user') && $subscriber->uid != 0) {
     $party = party_user_get_party($subscriber->uid);
+
+    // Define a standard field ref for the user email property.
     $field_ref = 'user__0__mail__0';
 
+    // Set the party and field ref on the simplenews_subscriber record and
+    // save. See party_simplenews_simplenews_subscriber_update.
     $subscriber->party_id = $party->pid;
     $subscriber->party_field_ref = $field_ref;
     simplenews_subscriber_save($subscriber);
 
+    // Create the subscription_settings attached entity.
     party_simplenews_add_subsciption_settings_attached_entity($party);
-
     return;
   }
+
+  // At this point we know we don't have enough information to make an easy
+  // link to the correct party, so we try an sniff one out using the email
+  // provided.
+  // This shouldn't have security issues as we don't link user accounts to
+  // parties based on this information.
 
   // Get a list of all email fields.
   $fields = party_get_email_fields();
 
-  // Iterate over email fields and use an EFQ to try and find matches.
+  // Iterate over email fields and use an EFQ to try and find entities that
+  // match the email we've been provided with.
   $found = FALSE;
   foreach ($fields as $data_set_name => $fields) {
     $definition = party_get_data_set_info($data_set_name);

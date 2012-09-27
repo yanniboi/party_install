@@ -19,9 +19,9 @@ files[] = views/party_activity_handler_delete_link_field.inc
 files[] = views/party_activity_handler_edit_link_field.inc
 files[] = views/party_activity_handler_operations_field.inc
 
-; Information added by drupal.org packaging script on 2012-09-21
+; Information added by drupal.org packaging script on 2012-09-25
 version = "7.x-1.x-dev"
 core = "7.x"
 project = "party"
-datestamp = "1348189354"
+datestamp = "1348577730"
 

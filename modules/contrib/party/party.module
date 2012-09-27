@@ -742,11 +742,6 @@ function party_get_crm_controller(Party $party, $data_set_name) {
 
   // @todo: error handling
   $class = $sets[$data_set_name]['class'];
-  if (!is_class($class)) {
-    ddebug_backtrace();
-    throw new Exception("$class not a class");
-  }
-  
   $controller = new $class($data_set_name, $party);
   return $controller;
 }

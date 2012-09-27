@@ -9,7 +9,7 @@
 function party_user_settings_form($form, &$form_state) {
   $form['create_on_register'] = array(
     '#type' => 'checkbox',
-    '#title' => 'Create a party when a user registers.',
+    '#title' => t('Create a party when a user registers.'),
     '#default_value' => variable_get('party_user_create_on_register', FALSE),
   );
 
@@ -23,7 +23,7 @@ function party_user_settings_form($form, &$form_state) {
   $form['registration_data_sets'] = array(
     '#type' => 'checkboxes',
     '#options' => $options,
-    '#title' => 'Data sets to show on user registration form',
+    '#title' => t('Data sets to show on user registration form'),
     '#default_value' => variable_get('party_user_registration_data_sets', array()),
   );
 
@@ -36,7 +36,7 @@ function party_user_settings_form($form, &$form_state) {
     $form['registration_hats'] = array(
       '#type' => 'checkboxes',
       '#options' => $options,
-      '#title' => "What hat's should users' parties be given on registration?",
+      '#title' => t("What hat's should users' parties be given on registration?"),
       '#default_value' => variable_get('party_user_registration_hats', array()),
     );
   }

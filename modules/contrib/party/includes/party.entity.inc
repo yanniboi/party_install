@@ -92,14 +92,59 @@ class PartyController extends EntityAPIController {
  */
 class Party extends Entity {
 
+  /**
+   * The internal, numeric party-id.
+   *
+   * @var integer
+   */
+  public $pid;
+
+  /**
+   * The human-readable label for the party.
+   *
+   * @var string
+   *
+   * @see PartyController::setLabel()
+   */
+  public $label;
+
+  /**
+   * Boolean representing whether this party has been merged into another
+   * party.
+   *
+   * @var integer
+   */
+  public $merged;
+
+  /**
+   * If $merged is TRUE, this is the pid of the party that this party has been
+   * merged into.
+   *
+   * @var integer
+   */
+  public $merged_party;
+
   public function __construct($values = array()) {
     parent::__construct($values, 'party');
   }
 
+  /**
+   * Return the default label for this party object.
+   *
+   * @return string
+   *   Human readable label for the party object.
+   */
   protected function defaultLabel() {
     return $this->label;
   }
 
+  /**
+   * Return the default path for this party.
+   *
+   * @return array
+   *   An array with the following key:
+   *   - path - the drupal path for the party.
+   */
   protected function defaultUri() {
     return array('path' => 'party/' . $this->pid);
   }

@@ -102,6 +102,7 @@ function party_install_install() {
     $field = array(
       'field_name' => 'field_main_name',
       'type' => 'name',
+      'type' => 'text'
     );
     $field = field_create_field($field);
   }
@@ -116,15 +117,18 @@ function party_install_install() {
       'text_processing' => 0,
     ),
     'widget' => array('type' => 'name_widget'),
+    'widget' => array('type' => 'text_textfield'),
     'weight' => 11,
     'display' => array(
       'default' => array(
         'label' => 'hidden',
         'type' => 'name_formatter',
+        'type' => 'text_plain',
       ),
       'party' => array(
         'label' => 'hidden',
         'type' => 'name_formatter',
+        'type' => 'text_default',
       ),
     ),
   );
@@ -502,6 +506,10 @@ function party_install_install() {
           'has' => 1,
           'multiple' => 0,
         ),
+        'profile2_main' => array(
+          'has' => 1,
+          'multiple' => 0,
+        ),
       ),
     ),
   ));
@@ -515,6 +523,10 @@ function party_install_install() {
     'data' => array(
       'data_sets' => array(
         'profile2_organisation' => array(
+          'has' => 1,
+          'multiple' => 0,
+        ),
+        'profile2_main' => array(
           'has' => 1,
           'multiple' => 0,
         ),

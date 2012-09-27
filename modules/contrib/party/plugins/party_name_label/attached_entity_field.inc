@@ -99,7 +99,7 @@ function party_attached_entity_field_options_form($form, &$form_state) {
 
   $form['data_set_name'] = array(
     '#type' => 'select',
-    '#title' => 'Data Set',
+    '#title' => t('Data Set'),
     '#default_value' => $default_data_set,
     '#options' => $options,
     '#weight' => 1,
@@ -133,7 +133,7 @@ function party_attached_entity_field_options_form($form, &$form_state) {
 
   $form['field_name'] = array(
     '#type' => 'select',
-    '#title' => 'Field',
+    '#title' => t('Field'),
     '#default_value' => $default_field,
     '#options' => $field_options,
     '#weight' => 2,

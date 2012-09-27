@@ -44,3 +44,4 @@ dependencies[] = simplenews
 dependencies[] = devel
 dependencies[] = views_ui
 dependencies[] = name
+dependencies[] = devel_generate

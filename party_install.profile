@@ -138,20 +138,20 @@ function party_install_party_generate_form_submit($form, &$form_state) {
 
       // If party has organisation hat use party_generate_organisation_label
       if (field_info_instance($data_set_controller->getDataInfo('entity type'), 'field_main_name', $data_set_controller->getDataInfo('entity bundle')) && isset($current_hat['organisation'])) {
-        $entity->field_main_name[LANGUAGE_NONE][0]['value'] = party_generate_organisation_label();
+        $entity->field_main_name[LANGUAGE_NONE][0]['value'] = party_install_generate_organisation_label();
       }
       // If party doesn't have organisation hat use party_generate_label
       elseif (field_info_instance($data_set_controller->getDataInfo('entity type'), 'field_main_name', $data_set_controller->getDataInfo('entity bundle'))) {
-        $entity->field_main_name[LANGUAGE_NONE][0]['value'] = party_generate_label();
+        $entity->field_main_name[LANGUAGE_NONE][0]['value'] = party_install_generate_label();
       }
 
       // If 'field_main_address' exists the use party_generate_address
       if (field_info_instance($data_set_controller->getDataInfo('entity type'), 'field_main_address', $data_set_controller->getDataInfo('entity bundle'))) {
-        $entity->field_main_address[LANGUAGE_NONE][0]['value'] = party_generate_address();
+        $entity->field_main_address[LANGUAGE_NONE][0]['value'] = party_install_generate_address();
       }
       // If 'field_main_email' exists the use party_generate_email
       /* if (field_info_instance($data_set_controller->getDataInfo('entity type'), 'field_main_email', $data_set_controller->getDataInfo('entity bundle'))) {
-        $entity->field_main_email[LANGUAGE_NONE][0]['value'] = party_generate_email();
+        $entity->field_main_email[LANGUAGE_NONE][0]['value'] = party_install_generate_email();
       }*/
 
       // If 'field_individual_photo' exists then use party_generate_image
@@ -160,7 +160,7 @@ function party_install_party_generate_form_submit($form, &$form_state) {
       if ($instance = field_info_instance($data_set_controller->getDataInfo('entity type'), 'field_individual_photo', $data_set_controller->getDataInfo('entity bundle'))) {
         //unset($entity->field_image);
         //$entity->field_image[LANGUAGE_NONE][] = party_generate_image($field, $instance);
-        $entity->field_individual_photo['und'][0] = party_generate_image($field, $instance);
+        $entity->field_individual_photo['und'][0] = party_install_generate_image($field, $instance);
       }*/
 
       // Save changes
@@ -175,7 +175,7 @@ function party_install_party_generate_form_submit($form, &$form_state) {
 /**
  * This function generates random names for dummy parties.
  */
-function party_generate_label() {
+function party_install_generate_label() {
 
  $first_name = array("Addie", "Aida", "Allie", "Amanda", "Anita", "Anne", "Audie", "Augusta", "Barb", "Barry", "Bea", "Ben", "Bess", "Celine", "Chris", "Constance", "Dave", "Eileen", "Frank", "Grace", "Harriet", "Hazel", "Hope", "Hugh", "Isabelle", "Ivana", "Jessica", "John", "Josie", "Liz", "Lois", "Luke", "Lynn", "Manny", "Mark", "Marsha", "Martin", "Maureen", "Minnie", "Missy", "Olive" ,"Paige" ,"Patty", "Peg", "Phillip", "Randy", "Ray", "Reeve", "Rhoda", "Rita", "Suzie", "Teri", "Tex", "Theresa");
 
@@ -192,7 +192,7 @@ function party_generate_label() {
 /**
  * This function generates random organisation names for dummy parties.
  */
-function party_generate_organisation_label() {
+function party_install_generate_organisation_label() {
   $city = array("Manchester", "Birmingham", "London", "Oxford", "Belfast", "Bristol", "Dubai");
   $industry = array("Banking", "Bakers", "Public Relations", "Events", "Sports", "Painters");
   $industry_type = array("LTD", "Limited", "Incorporated", "and Co", "Cooperative", "PLC");
@@ -209,7 +209,7 @@ function party_generate_organisation_label() {
 /**
  * This function generates random addresses for dummy parties.
  */
-function party_generate_address() {
+function party_install_generate_address() {
   $street_name = array("Anderson", "Andrews", "Brown", "Campbell", "Clark", "Clarke", "Davies", "De Wet", "Du Toit", "Edwards", "Evans", "Garcia", "Green", "Hall", "Harris", "Hughes", "Jackson", "Johnson", "Jones", "Khan", "Kumar", "Lewis", "Macdonald", "Martin", "Martinez", "Miller");
   $street = array("Street", "Road", "Cul-de-sac", "Drive", "Ave", "Crescent", "Fold");
   $city = array("Manchester", "Birmingham", "London", "Oxford", "Belfast", "Bristol", "Dubai");
@@ -226,7 +226,7 @@ function party_generate_address() {
 /**
  * This function generates random images for dummy parties.
  */
-function party_generate_image($field, $instance) {
+function party_install_generate_image($field, $instance) {
 
   $my_images = array('1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg');
 

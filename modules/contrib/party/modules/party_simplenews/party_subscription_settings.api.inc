@@ -130,7 +130,7 @@ function party_subscription_settings_edit_form($form, &$form_state, &$attached_e
 
   $simplenews_form['field_ref'] = array(
     '#type' => 'select',
-    '#title' => 'Email',
+    '#title' => t('Email'),
     '#options' => $emails,
     '#default_value' => $current_ref,
     '#ajax' => array(
