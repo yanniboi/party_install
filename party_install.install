@@ -97,6 +97,18 @@ function party_install_install() {
     }
   }
 
+  // Create a default vocabulary named "Nationality", enabled for parties.
+  $description = st('Use nationality to group parties of same nationality.');
+  $help = st('Enter a comma-separated list of words to describe your content.');
+  $vocabulary = (object) array(
+    'name' => st('Nationality'),
+    'description' => $description,
+    'machine_name' => 'nationality',
+    'help' => $help,
+
+  );
+  taxonomy_vocabulary_save($vocabulary);
+
   // Create Name field for Main profile2
   if (!field_info_field('field_main_name')) {
     $field = array(
@@ -234,6 +246,14 @@ function party_install_install() {
     $field = array(
       'field_name' => 'field_individual_nationality',
       'type' => 'taxonomy_term_reference',
+      'settings' => array(
+     	'allowed_values' => array(
+          array(
+            'vocabulary' => 'nationality',
+            'parent' => 0,
+          ),
+        ),
+      ),
     );
     $field = field_create_field($field);
   }

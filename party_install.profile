@@ -92,6 +92,7 @@ function party_install_party_generate_form_submit($form, &$form_state) {
     $party->language = LANGUAGE_NONE;
 
     // Generate dummy content for fields
+    module_load_include('inc', 'devel_generate', 'devel_generate');
     module_load_include('inc', 'devel_generate', 'devel_generate.fields');
     devel_generate_fields($party, 'party', 'party');
 
@@ -130,6 +131,7 @@ function party_install_party_generate_form_submit($form, &$form_state) {
         $entity->language = LANGUAGE_NONE;
       }
       // Use Devel generate to generate content for all fields 'attached' to party
+      module_load_include('inc', 'devel_generate', 'devel_generate');
       module_load_include('inc', 'devel_generate', 'devel_generate.fields');
       devel_generate_fields($entity, $data_set_controller->getDataInfo('entity type'), $data_set_controller->getDataInfo('entity bundle'));
 
