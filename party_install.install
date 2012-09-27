@@ -586,4 +586,16 @@ function party_install_install() {
     ),
   ));
   $hat->save();
+
+  // Set Attached Entity Label Plugin to be top of the list.
+  module_load_include('inc', 'party', 'party.admin');  
+  $label_plugins = party_settings_get_party_label_plugins();
+
+  foreach ($label_plugins as $path => $label_plugin) {
+    $labels[$path] = array('weight' => '0');
+  }
+
+  $labels['attached_entity_field'] = array('weight' => '-1');
+  variable_set('party_label_plugins', $labels);
+
 }
