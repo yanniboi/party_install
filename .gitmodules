@@ -1,0 +1,3 @@
+[submodule "modules/contrib/party"]
+	path = modules/contrib/party
+	url = http://git.drupal.org/project/party.git
