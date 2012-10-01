@@ -156,14 +156,16 @@ function party_install_party_generate_form_submit($form, &$form_state) {
         $entity->field_main_email[LANGUAGE_NONE][0]['value'] = party_install_generate_email();
       }*/
 
+      // Set the temp directory
+      variable_set('file_temporary_path', 'sites/default/files');
       // If 'field_individual_photo' exists then use party_generate_image
       // Load the field defintion.
-      /* $field = field_info_field('field_individual_photo');
+      $field = field_info_field('field_individual_photo');
       if ($instance = field_info_instance($data_set_controller->getDataInfo('entity type'), 'field_individual_photo', $data_set_controller->getDataInfo('entity bundle'))) {
         //unset($entity->field_image);
         //$entity->field_image[LANGUAGE_NONE][] = party_generate_image($field, $instance);
         $entity->field_individual_photo['und'][0] = party_install_generate_image($field, $instance);
-      }*/
+      }
 
       // Save changes
       $data_set_controller->save();
@@ -230,7 +232,7 @@ function party_install_generate_address() {
  */
 function party_install_generate_image($field, $instance) {
 
-  $my_images = array('1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg');
+  $my_images = array('1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg', '12.jpg');
 
   if ($path = 'temporary://' . $my_images[mt_rand(0, 9)]) {
     $source = new stdClass();
