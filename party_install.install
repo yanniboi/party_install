@@ -598,4 +598,9 @@ function party_install_install() {
   $labels['attached_entity_field'] = array('weight' => '-1');
   variable_set('party_label_plugins', $labels);
 
+  $data_set_name = 'profile2_main';
+  $field_name = 'field_main_name';
+
+  variable_set('party_name_label_data_set', $data_set_name);
+  variable_set('party_name_label_field', $field_name);
 }
