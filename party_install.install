@@ -100,14 +100,25 @@ function party_install_install() {
   // Create a default vocabulary named "Nationality", enabled for parties.
   $description = st('Use nationality to group parties of same nationality.');
   $help = st('Enter a comma-separated list of words to describe your content.');
-  $vocabulary = (object) array(
+  taxonomy_vocabulary_save((object) array(
     'name' => st('Nationality'),
     'description' => $description,
     'machine_name' => 'nationality',
     'help' => $help,
+  ));
 
-  );
-  taxonomy_vocabulary_save($vocabulary);
+  // Get vid.
+  $vid = db_query("SELECT vid FROM {taxonomy_vocabulary} WHERE machine_name = 'nationality'")->fetchField();
+
+  // Add terms to vocabulary.
+  $terms = array('British', 'German', 'Indian', 'American', 'Chinese', 'French');
+
+  foreach($terms as $term) {
+    taxonomy_term_save((object) array(
+      'name' => $term,
+      'vid' => $vid,
+    ));
+  }
 
   // Create Name field for Main profile2
   if (!field_info_field('field_main_name')) {
@@ -215,6 +226,12 @@ function party_install_install() {
     $field = array(
       'field_name' => 'field_individual_gender',
       'type' => 'list_text',
+      'settings' => array(
+        'allowed_values' => array(
+          'male' => st('Male'),
+          'female' => st('Female'),
+        );
+      ),
     );
     $field = field_create_field($field);
   }
@@ -344,6 +361,17 @@ function party_install_install() {
   $field = array(
     'field_name' => 'field_staff_department',
     'type' => 'list_text',
+    'settings' => array(
+      'allowed_values' => array(
+        'support' => st('Support'),
+        'consultancy' => st('Consultancy'),
+        'human_resources' => st('Human Resources'),
+        'development' => st('Development'),
+        'management' => st('Management'),
+        'sales' => st('Sales'),
+        'finance' => st('Finance'),
+      ),
+    ),
   );
   $field = field_create_field($field);
 
@@ -402,6 +430,16 @@ function party_install_install() {
   $field = array(
     'field_name' => 'field_student_course',
     'type' => 'list_text',
+    'settings' => array(
+      'allowed_values' => array(
+        'physics' => st('Physics'),
+        'english_literature' => st('English Literature'),
+        'business_studies' => st('Business Studies'),
+        'maths' => st('Maths'),
+        'french' => st('Frence'),
+        'art' => st('Art'),
+      ),
+    ),
   );
   $field = field_create_field($field);
 
@@ -489,6 +527,16 @@ function party_install_install() {
   $field = array(
     'field_name' => 'field_organisation_role',
     'type' => 'list_text',
+    'settings' => array(
+      'allowed_values' => array(
+        'consultancy' => st('Consultancy'),
+        'customer' => st('Customer'),
+        'training' => st('Training'),
+        'accountancy' => st('Accountancy'),
+        'it_support' => st('IT Support'),
+        'logistics' => st('Logistics'),
+      ),
+    ),
   );
   $field = field_create_field($field);
 

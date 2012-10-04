@@ -82,8 +82,6 @@ function party_install_party_generate_form_validate($form, &$form_state) {
 
 function party_install_party_generate_form_submit($form, &$form_state) {
   $i = 1;
-  variable_set('file_public_path', 'profiles/party_install/images');
-  variable_set('file_temporary_path', 'sites/default/files');
   while ($i <= $form_state['values']['entry']) {
     $party = array();
     $party = party_create($party);
@@ -233,14 +231,14 @@ function party_install_generate_image($field, $instance) {
 
   $my_images = array('1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg', '12.jpg');
 
-  if ($path = 'public://' . $my_images[mt_rand(0, 9)]) {
+  if ($path = DRUPAL_ROOT . '/profiles/party_install/images/' . $my_images[mt_rand(0, 9)]) {
     $source = new stdClass();
     $source->uri = $path;
     $source->uid = 1; // TODO: randomize? Use case specific.
     $source->filemime = 'image/' . pathinfo($path, PATHINFO_EXTENSION);
     $source->filename = array_pop(explode("//", $path));
     // $destination_dir = $field['settings']['uri_scheme'] . '://' . $instance['settings']['file_directory'];
-    $destination_dir = 'temporary://';
+    $destination_dir = 'public://';
     file_prepare_directory($destination_dir, FILE_CREATE_DIRECTORY);
 
     // $tmp_file = drupal_tempnam('temporary://', 'imagefield_');
