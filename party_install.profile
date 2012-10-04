@@ -246,7 +246,7 @@ function party_install_generate_image($field, $instance) {
     // $tmp_file = drupal_tempnam('temporary://', 'imagefield_');
     // $destination = $tmp_file . '.jpg';
 
-    $destination = $destination_dir . '/' . basename($path);
+    $destination = $destination_dir . '/' . devel_create_greeking(4) . basename($path);
     $file = file_copy($source, $destination, FILE_CREATE_DIRECTORY);
     $object_field['fid'] = $file->fid;
     $object_field['alt'] = devel_create_greeking(4);
@@ -261,3 +261,14 @@ function party_install_generate_image($field, $instance) {
   return $object_field;
 }
 
+/**
+ * Implements hook_views_api()
+ */
+
+function party_install_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('profile', 'party_install') . '/includes/views',
+//    'template path' => drupal_get_path(),
+  );
+}
